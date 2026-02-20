@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+</head>
+<body>
+
+<h2>Nora Hotel - Admin</h2>
+<button onclick="show()">Bronlarni ko‘rish</button>
+
+<ul id="list"></ul>
+
+<script>
+function show(){
+let bookings=JSON.parse(localStorage.getItem("bookings"))||[];
+let list=document.getElementById("list");
+list.innerHTML="";
+bookings.forEach(b=>{
+let li=document.createElement("li");
+li.innerText=`${b.name} | ${b.phone} | ${b.room} | ${b.date}`;
+list.appendChild(li);
+});
+}
+</script>
+
+</body>
+</html>
