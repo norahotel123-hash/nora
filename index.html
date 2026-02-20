@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nora Hotel</title>
+<style>
+body{margin:0;font-family:Arial;background:#f5f5f5}
+header{
+background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+url('https://images.unsplash.com/photo-1566073771259-6a8506099945');
+background-size:cover;
+height:90vh;color:white;
+display:flex;flex-direction:column;
+justify-content:center;align-items:center;text-align:center}
+h1{font-size:50px;margin:0}
+.btn{background:#d4af37;padding:12px 25px;
+color:black;text-decoration:none;border-radius:5px}
+section{padding:50px 20px;text-align:center}
+.card{background:white;padding:20px;margin:15px auto;
+max-width:300px;border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,.1)}
+input,select{padding:10px;width:90%;margin:5px}
+button{padding:10px 20px;background:#d4af37;
+border:none;border-radius:5px}
+footer{background:#111;color:white;padding:20px}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>NORA HOTEL</h1>
+<p>Qulaylik va hashamat bir joyda</p>
+<a href="#bron" class="btn">Bron qilish</a>
+</header>
+
+<section>
+<h2>Xonalar</h2>
+
+<div class="card">
+<h3>Standart Room</h3>
+<p>360 000 so'm</p>
+</div>
+
+<div class="card">
+<h3>Deluxe Room</h3>
+<p>410 000 so'm</p>
+</div>
+
+<div class="card">
+<h3>Lux Room</h3>
+<p>460 000 so'm</p>
+</div>
+
+</section>
+
+<section id="bron">
+<h2>Online Bron</h2>
+
+<input type="text" id="name" placeholder="Ismingiz">
+<input type="tel" id="phone" placeholder="Telefon">
+<select id="room">
+<option>Standart</option>
+<option>Deluxe</option>
+<option>Lux</option>
+</select>
+<input type="date" id="date">
+<br><br>
+
+<button onclick="book()">Bron qilish</button>
+<button onclick="copyCard()">30% To‘lov qilish</button>
+
+<p id="msg"></p>
+</section>
+
+<section>
+<h2>Aloqa</h2>
+<p>📍 Kichik Beshyog‘och 57</p>
+<p>📞 +998770821717</p>
+</section>
+
+<footer>
+© 2026 Nora Hotel
+</footer>
+
+<script>
+function book(){
+let data={
+name:document.getElementById("name").value,
+phone:document.getElementById("phone").value,
+room:document.getElementById("room").value,
+date:document.getElementById("date").value
+};
+
+let bookings=JSON.parse(localStorage.getItem("bookings"))||[];
+bookings.push(data);
+localStorage.setItem("bookings",JSON.stringify(bookings));
+
+document.getElementById("msg").innerText="Bron qabul qilindi! Chekni +998770821717 ga yuboring.";
+}
+
+function copyCard(){
+navigator.clipboard.writeText("5614684601351792");
+alert("Karta nusxalandi! Click orqali to‘lov qiling va chekni Telegramga yuboring.");
+}
+</script>
+
+</body>
+</html>
