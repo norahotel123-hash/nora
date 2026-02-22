@@ -3,177 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nora Hotel</title>
+<title>Nora Hotel | Luxury Stay</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
-body{margin:0;font-family:Arial;background:#f4f4f4}
-header{
-position:relative;
-height:100vh;
-overflow:hidden;
-color:white;
+body{
+margin:0;
+background:#0c0c0c;
+color:#fff;
+font-family:'Montserrat',sans-serif;
+scroll-behavior:smooth;
+}
+
+/* NAVBAR */
+nav{
+position:fixed;
+width:100%;
+padding:20px 40px;
 display:flex;
-justify-content:center;
+justify-content:space-between;
 align-items:center;
-flex-direction:column;
-text-align:center}
-.slider{
-position:absolute;
-width:100%;height:100%;
-top:0;left:0;
-z-index:-1}
-.slide{
-position:absolute;
-width:100%;height:100%;
+transition:.4s;
+z-index:1000;
+}
+
+nav.scrolled{
+background:#000;
+box-shadow:0 5px 20px rgba(0,0,0,.7);
+}
+
+.logo{
+font-family:'Playfair Display',serif;
+font-size:28px;
+background:linear-gradient(90deg,#d4af37,#fff,#d4af37);
+background-size:200%;
+-webkit-background-clip:text;
+color:transparent;
+animation:shine 4s linear infinite;
+}
+
+@keyframes shine{
+0%{background-position:-200%;}
+100%{background-position:200%;}
+}
+
+.nav-links a{
+color:#fff;
+text-decoration:none;
+margin-left:25px;
+font-size:15px;
+transition:.3s;
+}
+
+.nav-links a:hover{
+color:#d4af37;
+}
+
+.lang{
+margin-left:20px;
+cursor:pointer;
+color:#d4af37;
+}
+
+/* HEADER */
+header{
+height:100vh;
+background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),url('hotel.jpg');
 background-size:cover;
 background-position:center;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
 opacity:0;
-transition:opacity 1s}
-.slide.active{opacity:1}
+animation:fadeIn 2s forwards;
+}
 
-.overlay{
-position:absolute;
-width:100%;height:100%;
-background:rgba(0,0,0,.5);
-z-index:-1}
+@keyframes fadeIn{
+to{opacity:1;}
+}
 
-h1{font-size:50px}
+h1{
+font-family:'Playfair Display',serif;
+font-size:60px;
+letter-spacing:3px;
+color:#d4af37;
+}
+
+.subtitle{
+font-size:20px;
+opacity:.8;
+}
+
 .btn{
-background:#d4af37;
-padding:12px 25px;
+margin-top:25px;
+padding:12px 30px;
+background:linear-gradient(45deg,#d4af37,#f5e6a7);
 color:black;
 text-decoration:none;
-border-radius:5px;
-margin-top:15px;
-display:inline-block}
-section{padding:60px 20px;text-align:center}
-.rooms{display:flex;flex-wrap:wrap;justify-content:center}
-.card{
-background:white;
-margin:15px;
-padding:20px;
-width:280px;
-border-radius:10px;
-box-shadow:0 5px 15px rgba(0,0,0,.1);
-cursor:pointer;
-transition:.3s}
-.card:hover{transform:scale(1.05)}
+border-radius:30px;
+font-weight:bold;
+transition:.3s;
+}
+.btn:hover{
+transform:scale(1.1);
+}
 
-.modal{
-display:none;
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,.8);
+/* SECTIONS */
+section{
+padding:100px 20px;
+text-align:center;
+opacity:0;
+transform:translateY(40px);
+transition:1s;
+}
+
+section.show{
+opacity:1;
+transform:translateY(0);
+}
+
+.section-title{
+font-family:'Playfair Display',serif;
+font-size:40px;
+color:#d4af37;
+margin-bottom:40px;
+}
+
+.rooms{
+display:flex;
+flex-wrap:wrap;
 justify-content:center;
-align-items:center}
-.modal-content{
-background:white;
-padding:20px;
-max-width:700px;
-width:95%;
-border-radius:10px}
-.modal img{width:100%;margin:10px 0;border-radius:8px}
-.close{color:red;cursor:pointer}
+gap:30px;
+}
 
-iframe{width:100%;height:350px;border:none;margin-top:20px}
-footer{background:#111;color:white;padding:20px}
+.card{
+background:#111;
+border:1px solid #d4af37;
+padding:30px;
+width:280px;
+border-radius:15px;
+transition:.4s;
+cursor:pointer;
+}
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 25px rgba(212,175,55,.5);
+}
+
+.price{
+margin-top:10px;
+opacity:.8;
+}
+
+iframe{
+width:100%;
+height:350px;
+border:none;
+border-radius:15px;
+}
+
+footer{
+background:#000;
+padding:30px;
+text-align:center;
+color:#aaa;
+}
 </style>
 </head>
 
 <body>
 
-<header>
-<div class="slider">
-<div class="slide active" style="background-image:url('hotel.jpg')"></div>
-<div class="slide" style="background-image:url('standard1.jpg')"></div>
-<div class="slide" style="background-image:url('deluxe1.jpg')"></div>
+<nav id="navbar">
+<div class="logo">NORA HOTEL</div>
+<div class="nav-links">
+<a href="#rooms" data-uz="Xonalar" data-ru="Номера" data-en="Rooms">Xonalar</a>
+<a href="#location" data-uz="Manzil" data-ru="Локация" data-en="Location">Manzil</a>
+<a href="https://t.me/nora_hotel" target="_blank" class="btn" style="padding:8px 18px;"
+data-uz="Bron qilish" data-ru="Бронь" data-en="Book">Bron qilish</a>
+<span class="lang" onclick="setLang('uz')">UZ</span> |
+<span class="lang" onclick="setLang('ru')">RU</span> |
+<span class="lang" onclick="setLang('en')">EN</span>
 </div>
-<div class="overlay"></div>
+</nav>
 
+<header>
 <h1>NORA HOTEL</h1>
-<p>Qulaylik va shinamlik bir joyda</p>
-<a href="https://t.me/nora_hotel" target="_blank" class="btn">Bron qilish</a>
-<a href="https://instagram.com/nora_hotell" target="_blank" class="btn">Instagram</a>
+<p class="subtitle"
+data-uz="Luxury & Qulaylik"
+data-ru="Роскошь и комфорт"
+data-en="Luxury & Comfort">
+Luxury & Qulaylik
+</p>
+<a href="https://t.me/nora_hotel" target="_blank" class="btn"
+data-uz="Bron qilish"
+data-ru="Забронировать"
+data-en="Book Now">
+Bron qilish
+</a>
 </header>
 
-<section>
-<h2>Xonalar</h2>
+<section id="rooms">
+<h2 class="section-title"
+data-uz="Xonalar"
+data-ru="Номера"
+data-en="Rooms">
+Xonalar
+</h2>
+
 <div class="rooms">
-
-<div class="card" onclick="openRoom('standard')">
+<div class="card">
 <h3>Standart Room</h3>
-<p>360 000 so'm</p>
+<p class="price">360 000 so'm</p>
 </div>
 
-<div class="card" onclick="openRoom('deluxe')">
+<div class="card">
 <h3>Deluxe Room</h3>
-<p>410 000 so'm</p>
+<p class="price">410 000 so'm</p>
 </div>
 
-<div class="card" onclick="openRoom('lux')">
+<div class="card">
 <h3>Lux Room</h3>
-<p>460 000 so'm</p>
+<p class="price">460 000 so'm</p>
 </div>
-
 </div>
 </section>
 
-<!-- MODAL -->
-<div class="modal" id="roomModal">
-<div class="modal-content">
-<span class="close" onclick="closeModal()">Yopish ✖</span>
-<div id="roomImages"></div>
-</div>
-</div>
+<section id="location">
+<h2 class="section-title"
+data-uz="Manzil"
+data-ru="Адрес"
+data-en="Location">
+Manzil
+</h2>
 
-<section>
-<h2>Manzil</h2>
-
-<!-- YANDEX MAP -->
-...</html>
-
-
-<iframe src="https://yandex.com/map-widget/v1/?text=%D0%BA%D0%B8%D1%87%D0%B8%D0%BA%20%D0%B1%D0%B5%D1%88%D0%B0%D0%B3%D0%B0%D1%87%2057%20%D0%A2%D0%B0%D1%88%D0%BA%D0%B5%D0%BD%D1%82"></iframe>
-<p>📍 Kichik Beshyog‘och 57</p>
-<p>📞 +998770821717</p>
-
-</section>
-
-<footer>
-© 2026 Nora Hotel
-</footer>
-
-<script>
-// SLIDER
-let slides=document.querySelectorAll('.slide');
-let index=0;
-setInterval(()=>{
-slides[index].classList.remove('active');
-index=(index+1)%slides.length;
-slides[index].classList.add('active');
-},4000);
-
-// ROOM MODAL
-function openRoom(type){
-let imagesDiv=document.getElementById("roomImages");
-imagesDiv.innerHTML="";
-let images={
-standard:["standard1.jpg","standard2.jpg"],
-deluxe:["deluxe1.jpg","deluxe2.jpg"],
-lux:["lux1.jpg","lux2.jpg"]
-};
-images[type].forEach(img=>{
-let image=document.createElement("img");
-image.src=img;
-imagesDiv.appendChild(image);
-});
-document.getElementById("roomModal").style.display="flex";
-}
-function closeModal(){
-document.getElementById("roomModal").style.display="none";
-}
-</script>
-
-</body>
-</html>
+<iframe src="https://yandex.
