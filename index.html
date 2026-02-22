@@ -4,25 +4,79 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nora Hotel</title>
+
 <style>
-body{margin:0;font-family:Arial;background:#f5f5f5}
+body{margin:0;font-family:Arial;background:#f4f4f4}
 header{
-background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
-url('2026-02-13 21.12.35.jpg');
+position:relative;
+height:100vh;
+overflow:hidden;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center}
+.slider{
+position:absolute;
+width:100%;height:100%;
+top:0;left:0;
+z-index:-1}
+.slide{
+position:absolute;
+width:100%;height:100%;
 background-size:cover;
-height:90vh;color:white;
-display:flex;flex-direction:column;
-justify-content:center;align-items:center;text-align:center}
-h1{font-size:50px;margin:0}
-.btn{background:#d4af37;padding:12px 25px;
-color:black;text-decoration:none;border-radius:5px}
-section{padding:50px 20px;text-align:center}
-.card{background:white;padding:20px;margin:15px auto;
-max-width:300px;border-radius:10px;
-box-shadow:0 5px 15px rgba(0,0,0,.1)}
-input,select{padding:10px;width:90%;margin:5px}
-button{padding:10px 20px;background:#d4af37;
-border:none;border-radius:5px}
+background-position:center;
+opacity:0;
+transition:opacity 1s}
+.slide.active{opacity:1}
+
+.overlay{
+position:absolute;
+width:100%;height:100%;
+background:rgba(0,0,0,.5);
+z-index:-1}
+
+h1{font-size:50px}
+.btn{
+background:#d4af37;
+padding:12px 25px;
+color:black;
+text-decoration:none;
+border-radius:5px;
+margin-top:15px;
+display:inline-block}
+section{padding:60px 20px;text-align:center}
+.rooms{display:flex;flex-wrap:wrap;justify-content:center}
+.card{
+background:white;
+margin:15px;
+padding:20px;
+width:280px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+cursor:pointer;
+transition:.3s}
+.card:hover{transform:scale(1.05)}
+
+.modal{
+display:none;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,.8);
+justify-content:center;
+align-items:center}
+.modal-content{
+background:white;
+padding:20px;
+max-width:700px;
+width:95%;
+border-radius:10px}
+.modal img{width:100%;margin:10px 0;border-radius:8px}
+.close{color:red;cursor:pointer}
+
+iframe{width:100%;height:350px;border:none;margin-top:20px}
 footer{background:#111;color:white;padding:20px}
 </style>
 </head>
@@ -30,54 +84,58 @@ footer{background:#111;color:white;padding:20px}
 <body>
 
 <header>
+<div class="slider">
+<div class="slide active" style="background-image:url('hotel.jpg')"></div>
+<div class="slide" style="background-image:url('standard1.jpg')"></div>
+<div class="slide" style="background-image:url('deluxe1.jpg')"></div>
+</div>
+<div class="overlay"></div>
+
 <h1>NORA HOTEL</h1>
 <p>Qulaylik va hashamat bir joyda</p>
-<a href="#bron" class="btn">Bron qilish</a>
+<a href="https://t.me/nora_hotel" target="_blank" class="btn">Bron qilish</a>
+<a href="https://instagram.com/nora_hotel" target="_blank" class="btn">Instagram</a>
 </header>
 
 <section>
 <h2>Xonalar</h2>
+<div class="rooms">
 
-<div class="card">
+<div class="card" onclick="openRoom('standard')">
 <h3>Standart Room</h3>
 <p>360 000 so'm</p>
 </div>
 
-<div class="card">
+<div class="card" onclick="openRoom('deluxe')">
 <h3>Deluxe Room</h3>
 <p>410 000 so'm</p>
 </div>
 
-<div class="card">
+<div class="card" onclick="openRoom('lux')">
 <h3>Lux Room</h3>
 <p>460 000 so'm</p>
 </div>
 
+</div>
 </section>
 
-<section id="bron">
-<h2>Online Bron</h2>
-
-<input type="text" id="name" placeholder="Ismingiz">
-<input type="tel" id="phone" placeholder="Telefon">
-<select id="room">
-<option>Standart</option>
-<option>Deluxe</option>
-<option>Lux</option>
-</select>
-<input type="date" id="date">
-<br><br>
-
-<button onclick="book()">Bron qilish</button>
-<button onclick="copyCard()">30% To‘lov qilish</button>
-
-<p id="msg"></p>
-</section>
+<!-- MODAL -->
+<div class="modal" id="roomModal">
+<div class="modal-content">
+<span class="close" onclick="closeModal()">Yopish ✖</span>
+<div id="roomImages"></div>
+</div>
+</div>
 
 <section>
-<h2>Aloqa</h2>
+<h2>Manzil</h2>
+
+<!-- YANDEX MAP -->
+<iframe src="https://yandex.com/map-widget/v1/?text=Kichik%20Beshyog%27och%2057%20Tashkent"></iframe>
+
 <p>📍 Kichik Beshyog‘och 57</p>
 <p>📞 +998770821717</p>
+
 </section>
 
 <footer>
@@ -85,24 +143,33 @@ footer{background:#111;color:white;padding:20px}
 </footer>
 
 <script>
-function book(){
-let data={
-name:document.getElementById("name").value,
-phone:document.getElementById("phone").value,
-room:document.getElementById("room").value,
-date:document.getElementById("date").value
+// SLIDER
+let slides=document.querySelectorAll('.slide');
+let index=0;
+setInterval(()=>{
+slides[index].classList.remove('active');
+index=(index+1)%slides.length;
+slides[index].classList.add('active');
+},4000);
+
+// ROOM MODAL
+function openRoom(type){
+let imagesDiv=document.getElementById("roomImages");
+imagesDiv.innerHTML="";
+let images={
+standard:["standard1.jpg","standard2.jpg"],
+deluxe:["deluxe1.jpg","deluxe2.jpg"],
+lux:["lux1.jpg","lux2.jpg"]
 };
-
-let bookings=JSON.parse(localStorage.getItem("bookings"))||[];
-bookings.push(data);
-localStorage.setItem("bookings",JSON.stringify(bookings));
-
-document.getElementById("msg").innerText="Bron qabul qilindi! Chekni +998770821717 ga yuboring.";
+images[type].forEach(img=>{
+let image=document.createElement("img");
+image.src=img;
+imagesDiv.appendChild(image);
+});
+document.getElementById("roomModal").style.display="flex";
 }
-
-function copyCard(){
-navigator.clipboard.writeText("5614684601351792");
-alert("Karta nusxalandi! Click orqali to‘lov qiling va chekni Telegramga yuboring.");
+function closeModal(){
+document.getElementById("roomModal").style.display="none";
 }
 </script>
 
